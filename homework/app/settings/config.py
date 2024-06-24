@@ -1,11 +1,11 @@
 from fastapi import HTTPException
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import sessionmaker
 
 pg_string = "postgresql+psycopg2://postgres:postgres@localhost:5433/postgres"
 ENGINE = create_engine(pg_string)
 
-SessionLocal = Session(ENGINE, expire_on_commit=False)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=ENGINE)
 
 
 def get_db():
@@ -13,7 +13,7 @@ def get_db():
 
     :yield: database session.
     """
-    with Session(ENGINE) as session:
+    with SessionLocal() as session:
         try:
             return session
         except HTTPException:
