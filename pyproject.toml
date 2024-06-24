@@ -16,6 +16,8 @@ dependency-injector = "^4.41.0"
 alembic = "^1.13.1"
 psycopg2-binary = "^2.9.9"
 sqlalchemy = "^2.0.29"
+pytest = "^8.2.2"
+urllib3 = "^2.2.2"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.5"

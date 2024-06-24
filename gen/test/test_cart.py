@@ -15,6 +15,7 @@
 import unittest
 
 from openapi_client.models.cart import Cart
+from openapi_client.models.product_quantity import ProductQuantity
 
 class TestCart(unittest.TestCase):
     """Cart unit test stubs"""
@@ -30,33 +31,42 @@ class TestCart(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `Cart`
-        """
-        model = Cart()
         if include_optional:
             return Cart(
-                id = '',
-                products = [
-                    openapi_client.models.product_quantity.ProductQuantity(
-                        product_id = '', 
-                        quantity = 56, )
-                    ]
+                id='some-uuid',
+                products=[
+                    ProductQuantity(
+                        product_id='some-product-id',
+                        quantity=56,
+                    )
+                ]
             )
         else:
             return Cart(
-                id = '',
-                products = [
-                    openapi_client.models.product_quantity.ProductQuantity(
-                        product_id = '', 
-                        quantity = 56, )
-                    ],
-        )
-        """
+                id='some-uuid',
+                products=[
+                    ProductQuantity(
+                        product_id='some-product-id',
+                        quantity=56,
+                    )
+                ],
+            )
 
     def testCart(self):
         """Test Cart"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
+
+        self.assertEqual(inst_req_only.id, 'some-uuid')
+        self.assertEqual(len(inst_req_only.products), 1)
+        self.assertEqual(inst_req_only.products[0].product_id, 'some-product-id')
+        self.assertEqual(inst_req_only.products[0].quantity, 56)
+
+        self.assertEqual(inst_req_and_optional.id, 'some-uuid')
+        self.assertEqual(len(inst_req_and_optional.products), 1)
+        self.assertEqual(inst_req_and_optional.products[0].product_id, 'some-product-id')
+        self.assertEqual(inst_req_and_optional.products[0].quantity, 56)
+
 
 if __name__ == '__main__':
     unittest.main()

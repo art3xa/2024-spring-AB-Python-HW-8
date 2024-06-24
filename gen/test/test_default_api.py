@@ -13,8 +13,12 @@
 
 
 import unittest
+from unittest.mock import patch
 
 from openapi_client.api.default_api import DefaultApi
+from openapi_client.models.cart import Cart
+from openapi_client.models.product import Product
+from openapi_client.models.product_quantity import ProductQuantity
 
 
 class TestDefaultApi(unittest.TestCase):
@@ -26,54 +30,90 @@ class TestDefaultApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_add_product_to_cart_carts_id_products_product_id_post(self) -> None:
+    @patch('openapi_client.api.default_api.DefaultApi.add_product_to_cart_carts_id_products_product_id_post')
+    def test_add_product_to_cart_carts_id_products_product_id_post(self, mock_post) -> None:
         """Test case for add_product_to_cart_carts_id_products_product_id_post
 
         Add Product To Cart
         """
-        pass
+        mock_post.return_value = Cart(id='cart-id', products=[ProductQuantity(product_id='product-id', quantity=1)])
+        response = self.api.add_product_to_cart_carts_id_products_product_id_post('cart-id', 'product-id')
+        self.assertEqual(response.id, 'cart-id')
+        self.assertEqual(len(response.products), 1)
+        self.assertEqual(response.products[0].product_id, 'product-id')
+        self.assertEqual(response.products[0].quantity, 1)
 
-    def test_change_product_quantity_carts_id_products_product_id_put(self) -> None:
+    @patch('openapi_client.api.default_api.DefaultApi.change_product_quantity_carts_id_products_product_id_put')
+    def test_change_product_quantity_carts_id_products_product_id_put(self, mock_put) -> None:
         """Test case for change_product_quantity_carts_id_products_product_id_put
 
         Change Product Quantity
         """
-        pass
+        mock_put.return_value = Cart(id='cart-id', products=[ProductQuantity(product_id='product-id', quantity=2)])
+        response = self.api.change_product_quantity_carts_id_products_product_id_put('cart-id', 'product-id', 2)
+        self.assertEqual(response.id, 'cart-id')
+        self.assertEqual(len(response.products), 1)
+        self.assertEqual(response.products[0].product_id, 'product-id')
+        self.assertEqual(response.products[0].quantity, 2)
 
-    def test_create_cart_carts_post(self) -> None:
+    @patch('openapi_client.api.default_api.DefaultApi.create_cart_carts_post')
+    def test_create_cart_carts_post(self, mock_post) -> None:
         """Test case for create_cart_carts_post
 
         Create Cart
         """
-        pass
+        mock_post.return_value = Cart(id='cart-id', products=[])
+        response = self.api.create_cart_carts_post()
+        self.assertEqual(response.id, 'cart-id')
+        self.assertEqual(len(response.products), 0)
 
-    def test_delete_cart_carts_id_delete(self) -> None:
+    @patch('openapi_client.api.default_api.DefaultApi.delete_cart_carts_id_delete')
+    def test_delete_cart_carts_id_delete(self, mock_delete) -> None:
         """Test case for delete_cart_carts_id_delete
 
         Delete Cart
         """
-        pass
+        mock_delete.return_value = Cart(id='cart-id', products=[])
+        response = self.api.delete_cart_carts_id_delete('cart-id')
+        self.assertEqual(response.id, 'cart-id')
 
-    def test_get_cart_carts_id_get(self) -> None:
+    @patch('openapi_client.api.default_api.DefaultApi.get_cart_carts_id_get')
+    def test_get_cart_carts_id_get(self, mock_get) -> None:
         """Test case for get_cart_carts_id_get
 
         Get Cart
         """
-        pass
+        mock_get.return_value = Cart(id='cart-id', products=[ProductQuantity(product_id='product-id', quantity=1)])
+        response = self.api.get_cart_carts_id_get('cart-id')
+        self.assertEqual(response.id, 'cart-id')
+        self.assertEqual(len(response.products), 1)
+        self.assertEqual(response.products[0].product_id, 'product-id')
+        self.assertEqual(response.products[0].quantity, 1)
 
-    def test_get_product_products_id_get(self) -> None:
+    @patch('openapi_client.api.default_api.DefaultApi.get_product_products_id_get')
+    def test_get_product_products_id_get(self, mock_get) -> None:
         """Test case for get_product_products_id_get
 
         Get Product
         """
-        pass
+        mock_get.return_value = Product(id='product-id', name='Product Name', price=10.0)
+        response = self.api.get_product_products_id_get('product-id')
+        self.assertEqual(response.id, 'product-id')
+        self.assertEqual(response.name, 'Product Name')
+        self.assertEqual(response.price, 10.0)
 
-    def test_get_products_products_get(self) -> None:
+    @patch('openapi_client.api.default_api.DefaultApi.get_products_products_get')
+    def test_get_products_products_get(self, mock_get) -> None:
         """Test case for get_products_products_get
 
         Get Products
         """
-        pass
+        mock_get.return_value = [Product(id='product-id', name='Product Name', price=10.0)]
+        response = self.api.get_products_products_get()
+        self.assertEqual(len(response), 1)
+        self.assertEqual(response[0].id, 'product-id')
+        self.assertEqual(response[0].name, 'Product Name')
+        self.assertEqual(response[0].price, 10.0)
 
 
 if __name__ == '__main__':

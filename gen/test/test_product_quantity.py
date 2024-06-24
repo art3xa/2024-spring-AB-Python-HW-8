@@ -30,25 +30,27 @@ class TestProductQuantity(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `ProductQuantity`
-        """
-        model = ProductQuantity()
         if include_optional:
             return ProductQuantity(
-                product_id = '',
-                quantity = 56
+                product_id='some-product-id',
+                quantity=56
             )
         else:
             return ProductQuantity(
-                product_id = '',
-                quantity = 56,
-        )
-        """
+                product_id='some-product-id',
+                quantity=56
+            )
 
     def testProductQuantity(self):
         """Test ProductQuantity"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
+
+        self.assertEqual(inst_req_only.product_id, 'some-product-id')
+        self.assertEqual(inst_req_only.quantity, 56)
+
+        self.assertEqual(inst_req_and_optional.product_id, 'some-product-id')
+        self.assertEqual(inst_req_and_optional.quantity, 56)
 
 if __name__ == '__main__':
     unittest.main()
